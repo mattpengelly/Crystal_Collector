@@ -1,0 +1,16 @@
+#crystal-buttons {
+    height: 100px;
+}
+
+.crystal-button {
+    display: block;
+    width: auto;
+    height: 100%;
+}
+
+#scores {
+    width: 50%;
+    text-align: center;
+    font-size: 2em;
+}
+
