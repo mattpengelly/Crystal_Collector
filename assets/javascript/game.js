@@ -30,15 +30,25 @@ var crystalGame = {
 
     newCrystals: function () {
 
-        var crystalPad = $("<div>");
+        // var crystalPad = $("<div>");
         // crystalPad.addClass("col-lg-2 col-md-2 col-12");
-        $("#crystal-buttons").append(crystalPad);
+        // $("#crystal-buttons").append(crystalPad);
+        var crystalPtsArr = [];
 
         for (i = 0; i < this.crystals.length; i++) {
             var crystalWrap = $("<div>");
             var crystalBtn = $("<img>");
             var tempPoints = 0;
-            tempPoints = Math.ceil(Math.random() * 12);
+            var randomValue = function () {
+                var randPoints = Math.ceil(Math.random() * 12);
+                if (crystalPtsArr.indexOf(randPoints) === -1) {
+                    crystalPtsArr[i] = randPoints;
+                    tempPoints = randPoints;
+                }
+                else randomValue();
+            }
+            randomValue();
+            // tempPoints = Math.ceil(Math.random() * 12);
             this.crystals[i].points = tempPoints;
             console.log(this.crystals[i].points);
             crystalWrap.addClass("crystal-wrapper col-lg-2 col-md-2 col-sm-3 col-5 mb-3")
@@ -48,7 +58,7 @@ var crystalGame = {
             crystalBtn.text(this.crystals[i].name);
             crystalWrap.html(crystalBtn);
             // console.log(this.crystals[i].name);
-            console.log(crystalBtn.text);
+            // console.log(crystalBtn.text);
             $("#crystal-buttons").append(crystalWrap);
         }
 
@@ -68,7 +78,7 @@ var crystalGame = {
         else if (this.goal < 19) {
             this.newGoal()
         };
-        console.log(this.goal);
+        // console.log(this.goal);
         $("#goal").html(this.goal);
         $("#current").html(this.current);
         this.active = true;
@@ -114,25 +124,36 @@ var crystalGame = {
 }
 
 
-    $(document).ready(function () {
-        crystalGame.newCrystals();
-        crystalGame.newGoal();
-        $(document).on("click", ".crystal-button", this, crystalGame.playGame);
-        // $(document).on("click", ".crystal-button", function () {
-        //     var value = $(this).attr("data-points");
-        //     crystalGame.playGame(value);
-        // });
-        $(document).on("click", "#start", function () {
-            if (crystalGame.active === false) {
-                $("#crystal-buttons").empty();
-                crystalGame.newCrystals();
-                crystalGame.newGoal();
-            }
-        });
-        $(document).on("click", "#help", function () {
-            //make a help popup
-        });
+$(document).ready(function () {
+    crystalGame.newCrystals();
+    crystalGame.newGoal();
+    $(document).on("click", ".crystal-button", this, crystalGame.playGame);
+    // $(document).on("click", ".crystal-button", function () {
+    //     var value = $(this).attr("data-points");
+    //     crystalGame.playGame(value);
+    // });
+    $(document).on("click", "#start", function () {
+        if (crystalGame.active === false) {
+            $("#crystal-buttons").empty();
+            crystalGame.newCrystals();
+            crystalGame.newGoal();
+        }
     });
+    $(document).on("click", "#help", function () {
+        $("#myModal").css("display", "block");
+    });
+
+    $(document).on("click", ".close", function () {
+        $("#myModal").css("display", "none");
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    $(document).on("click", window, function () {
+        if (event.target == document.getElementById('myModal')) {
+            $("#myModal").css("display", "none");
+        }
+    });
+});
 
 // alert("Crystal Clicked!")
 // crystalGame.playGame(this.points)
