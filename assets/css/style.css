@@ -1,16 +1,65 @@
+body {
+    background-image: url(../images/Gem_Mine.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#game-title {
+    color: gold;
+    text-shadow: 6px 6px 10px black;
+}
+
 #crystal-buttons {
     height: 100px;
 }
 
-.crystal-button {
-    display: block;
-    width: auto;
+.crystal-wrapper {
     height: 100%;
 }
 
-#scores {
+.crystal-button {
+    height: 100%;
+    width: 100%;
+}
+
+.crystal-button:hover {
+    transform: scale(1.25, 1.25);
+    opacity: .7;
+}
+
+.scores {
     width: 50%;
     text-align: center;
     font-size: 2em;
+    color: gold;
+    background-color: rgba(128, 128, 128, .6); 
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px;
+    text-shadow: 3px 3px 3px black;
+}
+
+@media screen and (max-width:1100px) {
+    .scores{
+        width: 75%
+    }
+}
+
+@media screen and (max-width:750px) {
+    .scores{
+        width: 100%
+    }
+}
+
+@media screen and (max-width:576px) {
+    .crystal-wrapper {
+        /* box-sizing: border-box; */
+        width: 100px;
+    }
+    .crystal-button {
+        width: 100%;
+    }
+    .scores {
+        font-size: 1.5em;
+    }
 }
 

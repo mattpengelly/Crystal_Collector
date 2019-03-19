@@ -30,25 +30,30 @@ var crystalGame = {
 
     newCrystals: function () {
 
+        var crystalPad = $("<div>");
+        // crystalPad.addClass("col-lg-2 col-md-2 col-12");
+        $("#crystal-buttons").append(crystalPad);
+
         for (i = 0; i < this.crystals.length; i++) {
+            var crystalWrap = $("<div>");
             var crystalBtn = $("<img>");
             var tempPoints = 0;
             tempPoints = Math.ceil(Math.random() * 12);
             this.crystals[i].points = tempPoints;
             console.log(this.crystals[i].points);
-            crystalBtn.addClass("crystal-button col-lg-1 col-md-2 col-sm-3 col-12");
+            crystalWrap.addClass("crystal-wrapper col-lg-2 col-md-2 col-sm-3 col-5 mb-3")
+            crystalBtn.addClass("crystal-button");
             crystalBtn.attr("src", "assets/images/" + this.crystals[i].image);
             crystalBtn.attr("data-points", tempPoints);
             crystalBtn.text(this.crystals[i].name);
-            console.log(this.crystals[i].name);
+            crystalWrap.html(crystalBtn);
+            // console.log(this.crystals[i].name);
             console.log(crystalBtn.text);
-            $("#crystal-buttons").append(crystalBtn);
+            $("#crystal-buttons").append(crystalWrap);
         }
 
-        var crystalPad = $("<div>");
-        crystalPad.addClass("col-lg-4 col-md-2 col-12");
-        $("#crystal-buttons").prepend(crystalPad);
-        $("#crystal-buttons").append(crystalPad);
+        // $("#crystal-buttons").prepend(crystalPad);
+        // $("#crystal-buttons").append(crystalPad);
     },
 
     newGoal: function () {
@@ -77,50 +82,57 @@ var crystalGame = {
     },
 
     playGame: function (event) {
+        console.log(event);
         var crystalValue = event.target.dataset.points;
-        // console.log("playGame got called");
+        console.log("playGame got called");
         // console.log(crystalGame.goal);
         // console.log(crystalGame.current);
-        // console.log(crystalValue);
+        console.log(crystalValue);
         if (crystalGame.active === true) {
             // console.log(crystalValue);
             crystalValue = parseInt(crystalValue);
             crystalGame.current += crystalValue;
             $("#current").html(crystalGame.current);
             if (crystalGame.current === crystalGame.goal) {
-                alert("YOU WIN!!!");
-                crystalGame.active = false
+                setTimeout(function () {
+                    alert("YOU WIN!!!");
+                    crystalGame.active = false;
+                }, 200);
             }
-            else if (crystalGame.current > crystalGame.goal) {
-                alert("YOU LOSE!!!");
-                crystalGame.active = false
-            }
-        }
 
-    },
+            $("#current").html(crystalGame.current);
+            if (crystalGame.current > crystalGame.goal) {
+                setTimeout(function () {
+                    alert("YOU LOSE!!!");
+                    crystalGame.active = false;
+                }, 200);
+            }
+
+        }
+    }
+
 }
 
 
-
-$(document).ready(function () {
-    crystalGame.newCrystals();
-    crystalGame.newGoal();
-    $(document).on("click", ".crystal-button", this, crystalGame.playGame);
-    // $(document).on("click", ".crystal-button", function () {
-    //     var value = $(this).attr("data-points");
-    //     crystalGame.playGame(value);
-    // });
-    $(document).on("click", "#start", function () {
-        if (crystalGame.active === false) {
-            $("#crystal-buttons").empty();
-            crystalGame.newCrystals();
-            crystalGame.newGoal();
-        }
+    $(document).ready(function () {
+        crystalGame.newCrystals();
+        crystalGame.newGoal();
+        $(document).on("click", ".crystal-button", this, crystalGame.playGame);
+        // $(document).on("click", ".crystal-button", function () {
+        //     var value = $(this).attr("data-points");
+        //     crystalGame.playGame(value);
+        // });
+        $(document).on("click", "#start", function () {
+            if (crystalGame.active === false) {
+                $("#crystal-buttons").empty();
+                crystalGame.newCrystals();
+                crystalGame.newGoal();
+            }
+        });
+        $(document).on("click", "#help", function () {
+            //make a help popup
+        });
     });
-    $(document).on("click", "#help", function () {
-        //make a help popup
-    });
-});
 
 // alert("Crystal Clicked!")
 // crystalGame.playGame(this.points)
